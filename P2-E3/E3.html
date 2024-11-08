@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad Práctica 3</title>
+    <style>
+    * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: #f2f2f2;
+    }
+
+    #lienzo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    #lienzo img {
+        border: 3px solid #333;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    #lienzo img:hover {
+        transform: scale(1.05);
+    }
+
+    div img {
+        margin: 5px;
+        border: 2px solid #666;
+        border-radius: 5px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    div img:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+    }
+
+    div {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    #info {
+        margin-top: 20px;
+        padding: 10px;
+        width: 80%;
+        max-width: 600px;
+        height: 200px;
+        border: 2px solid #333;
+        border-radius: 8px;
+        resize: none;
+        background-color: #fafafa;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    </style>
+</head>
+<body>
+    <div id="lienzo">
+        <img src="5.jpeg" id="predet" height="400">
+    </div>
+
+    <div>
+        <img src="5.jpeg" id="imgElenco" height="150">
+        <img src="1.jpeg" id="imgHouse" height="150">
+        <img src="2.jpeg" id="imgCameron" height="150">
+        <img src="4.jpeg" id="imgChase" height="150">
+        <img src="6.jpeg" id="imgForeman" height="150">
+        <img src="3.jpeg" id="imgCuddy" height="150">
+        <img src="7.jpeg" id="imgWilson" height="150">
+    </div>
+
+    <textarea id="info" rows="20" cols="20" disabled></textarea>
+
+    <script>
+        const lienzo = document.getElementById("lienzo").querySelector("img");
+        const info = document.getElementById("info");
+
+        const data = {
+            imgElenco: { src: "5.jpeg", text: "Dr. House es una serie de televisión que sigue al brillante pero misántropo médico Gregory House y su equipo mientras resuelven casos médicos complejos. House utiliza métodos poco ortodoxos y desafía constantemente las normas médicas. La serie combina drama médico, misterio y humor negro, explorando temas como la ética, la amistad y la condición humana." },
+            imgHouse: { src: "1.jpeg", text: "Dr. Gregory House es un genio médico, conocido por su ingenio y su actitud sarcástica. Adicto a los analgésicos y con un pasado trágico, su misantropía lo aísla de los demás. A pesar de sus métodos poco ortodoxos, resuelve los casos médicos más complejos. Su brillantez y su compleja personalidad lo convierten en un personaje fascinante y controvertido." },
+            imgCameron: { src: "2.jpeg", text: "La Dra. Allison Cameron es una de las miembros más destacados del equipo de diagnóstico del Dr. House. Inicialmente idealista y compasiva, Cameron se enfrenta a la realidad de la medicina y evoluciona a lo largo de la serie. Su relación con House es compleja, marcada por el respeto mutuo y una profunda admiración. A pesar de su inteligencia y dedicación, Cameron lucha con sus propias inseguridades y traumas del pasado, lo que la convierte en un personaje entrañable y humano." },
+            imgChase: { src: "4.jpeg", text: "El Dr. Robert Chase es uno de los miembros más jóvenes del equipo de diagnóstico de House. Inicialmente inseguro y ansioso por agradar, Chase evoluciona a lo largo de la serie, convirtiéndose en un médico competente y leal. Su relación con House es compleja, marcada por el respeto y la frustración. A pesar de sus orígenes británicos, Chase se adapta a la peculiar dinámica del equipo y se convierte en un aliado invaluable para House." },
+            imgForeman: { src: "6.jpeg", text: "El Dr. Eric Foreman es un miembro clave del equipo de diagnóstico de House. Inteligente y pragmático, Foreman es el contrapunto perfecto para el caos de House. Inicialmente desconfiado y hostil, Foreman evoluciona a lo largo de la serie, desarrollando una profunda lealtad hacia su equipo y un respeto, aunque a regañadientes, hacia House. Su pasado difícil lo ha endurecido, pero también le ha dado una gran fuerza de carácter." },
+            imgCuddy: { src: "3.jpeg", text: "La Dra. Lisa Cuddy es la decana de medicina del hospital y la jefa de House. Inteligente, pragmática y con una fuerte ética de trabajo, Cuddy intenta mantener a raya el caos que House provoca. A pesar de su frustración con su comportamiento, reconoce su brillantez y lo protege de las consecuencias de sus acciones. Su relación con House es compleja, marcada por una mezcla de respeto, irritación y atracción." },
+            imgWilson: { src: "7.jpeg", text: "El Dr. James Wilson es el mejor amigo y confidente de House. Oncólogo de profesión, es la única persona a la que House permite que le diga la verdad. Wilson es un hombre amable, comprensivo y leal, a menudo intentando ayudar a House a superar sus adicciones y a encontrar un poco de felicidad. Su amistad con House es el corazón de la serie, un vínculo inquebrantable a pesar de las diferencias entre ambos." }
+        };
+
+        function actualizarLienzo(id) {
+            const { src, text } = data[id];
+            lienzo.src = src;      
+            info.value = text;     
+        }
+
+        Object.keys(data).forEach(id => {
+            const img = document.getElementById(id);
+            
+            img.addEventListener("mouseover", () => actualizarLienzo(id));
+            img.addEventListener("click", () => actualizarLienzo(id));
+        });
+    </script>
+</body>
+</html>

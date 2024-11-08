@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad Práctica 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #1e3a5f;
+            background-color: #e0f0ff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #174b72;
+        }
+
+        form, table {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        /* Formulario */
+        form div {
+            margin-bottom: 20px;
+        }
+
+        p, select, textarea, input {
+            color: #1e3a5f;
+            font-size: 1em;
+        }
+
+        textarea, input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #d1e3f0;
+            border-radius: 5px;
+            background-color: #f8fcff;
+            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #3a8dbf;
+            color: #ffffff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #31769b;
+        }
+
+        /* Tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9em;
+            background-color: #f8fcff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid #d1e3f0;
+            text-align: left;
+        }
+
+        table thead th {
+            background-color: #3a8dbf;
+            color: #ffffff;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #ebf5ff;
+        }
+
+        table tbody tr:hover {
+            background-color: #d1e9ff;
+        }
+    </style>
+</head>
+<body>
+    <form name="Nomina">
+        <h1>Nómina (Empleados de Ventas)</h1>
+        <div>
+            <h2>Ingrese los siguientes datos:</h2>
+            <p>Nombre(s):</p>
+            <textarea name="nom" id="mt1" rows="1"></textarea>
+            <p>Apellido paterno:</p>
+            <textarea name="apP" id="mt2" rows="1"></textarea>
+            <p>Apellido materno:</p>
+            <textarea name="apM" id="mt3" rows="1"></textarea>
+            <p>Puesto:</p>
+            <select id="MDes1">
+                <option value="----" selected> ---- </option>
+                <option value="dir">Director comercial</option>
+                <option value="ger">Gerente de ventas</option>
+                <option value="sup">Supervisor</option>
+                <option value="vend">Vendedor</option>
+            </select>
+        </div>
+        <div>
+            <h2>Ventas realizadas:</h2>
+            <p>Venta 1:</p>
+            <input type="number" id="vnt1">
+            <p>Venta 2:</p>
+            <input type="number" id="vnt2">
+            <p>Venta 3:</p>
+            <input type="number" id="vnt3"> 
+            <p>Venta 4:</p>
+            <input type="number" id="vnt4">
+            <button type="button" onclick="calcularTotalComisiones()">Calcular</button> 
+        </div>
+    </form>
+
+    <h2>Tabulación</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre(s)</th>
+                <th>Apellido paterno</th>
+                <th>Apellido materno</th>
+                <th>Puesto</th>
+                <th>Sueldo base</th>
+                <th>Total ventas</th>
+                <th>Comisiones</th>
+                <th>Pago total</th>
+            </tr>
+        </thead>
+        <tbody id="resultados"></tbody>
+    </table>
+
+    <script>
+        const sueldosBase = {
+            "dir": 25000,
+            "ger": 15000,
+            "sup": 8000,
+            "vend": 4000
+        };
+
+        const puestosNom = {
+            "dir": "Director comercial",
+            "ger": "Gerente de ventas",
+            "sup": "Supervisor",
+            "vend": "Vendedor"
+        };
+
+        function calcularComision(venta) {
+            if (venta < 2000) return 0;
+            if (venta < 5000) return venta * 0.05;
+            return venta * 0.10;
+        }
+
+        function calcularTotalComisiones() {
+            const puesto = document.getElementById("MDes1").value;
+            const nombrePuesto = puestosNom[puesto] || "No seleccionado";
+            const sueldo = sueldosBase[puesto] || 0;
+
+            const nombre = document.getElementById("mt1").value;
+            const apPat = document.getElementById("mt2").value;
+            const apMat = document.getElementById("mt3").value;
+
+            const ventas = [
+                parseFloat(document.getElementById("vnt1").value) || 0,
+                parseFloat(document.getElementById("vnt2").value) || 0,
+                parseFloat(document.getElementById("vnt3").value) || 0,
+                parseFloat(document.getElementById("vnt4").value) || 0
+            ];
+
+            const totalVentas = ventas.reduce((acc, venta) => acc + venta, 0);
+            const totalComisiones = ventas.reduce((acc, venta) => acc + calcularComision(venta), 0);
+            const sueldoTotal = sueldo + totalComisiones;
+
+            const tabla = document.getElementById("resultados");
+            const nuevaFila = tabla.insertRow();
+
+            nuevaFila.insertCell(0).textContent = nombre;
+            nuevaFila.insertCell(1).textContent = apPat;
+            nuevaFila.insertCell(2).textContent = apMat;
+            nuevaFila.insertCell(3).textContent = nombrePuesto;
+            nuevaFila.insertCell(4).textContent = sueldo.toFixed(2);
+            nuevaFila.insertCell(5).textContent = totalVentas.toFixed(2);
+            nuevaFila.insertCell(6).textContent = totalComisiones.toFixed(2);
+            nuevaFila.insertCell(7).textContent = sueldoTotal.toFixed(2);
+        }
+    </script>
+</body>
+</html>

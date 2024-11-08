@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad Práctica 2</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fefaf0;
+            color: #5a3816;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1, h2 {
+            color: #b85c38;
+            animation: fadeIn 1s ease;
+        }
+
+        form {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .form-column {
+            background-color: #fff4e6;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        label, p {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #5a3816;
+            animation: fadeIn 1s ease;
+        }
+
+        textarea, select, input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ecd2b3;
+            border-radius: 5px;
+            background-color: #fffaf3;
+            color: #5a3816;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        textarea:hover, select:hover, input[type="text"]:hover {
+            background-color: #f7e7d5;
+        }
+
+        button {
+            background-color: #d4925a;
+            color: #ffffff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        button:hover {
+            background-color: #b8754b;
+        }
+
+        .price-display {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #c96532;
+            text-align: right;
+            margin-top: 10px;
+            animation: fadeInRight 1s ease;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <form name="Restaurante">
+        <div class="form-column">
+            <h1>Restaurante</h1>
+            <h2>Ingrese los siguientes datos:</h2>
+    
+            <label>Nombre(s):</label>
+            <textarea name="nom" id="mt1" rows="1" placeholder="Ingrese su nombre(s)"></textarea>
+            
+            <label>Apellido paterno:</label>
+            <textarea name="apP" id="mt2" rows="1" placeholder="Ingrese su apellido paterno"></textarea>
+            
+            <label>Apellido materno:</label>
+            <textarea name="apM" id="mt3" rows="1" placeholder="Ingrese su apellido materno"></textarea>
+            
+            <label>Edad:</label>
+            <textarea name="edad" id="mt4" rows="1" placeholder="Ingrese su edad"></textarea>
+            
+            <button type="button" onclick="verificaEdad()">Actualizar información</button> 
+        </div>
+        
+        <div class="form-column">
+            <h2>Cuenta</h2>
+            <label>Alimentos:</label>
+            <textarea name="alim" id="mt5" rows="1" placeholder="Ingrese precio total de alimentos"></textarea>
+           
+            
+            <label>Bebidas:</label>
+            <textarea name="beb" id="mt6" rows="1" placeholder="Ingrese precio total de bebidas"></textarea>
+     
+            
+            <label>Coctelería:</label>
+            <textarea name="coct" id="mt7" rows="1" placeholder="Ingrese precio total de coctelería"></textarea>
+            <div class="price-display">Solo para mayores de edad</div>
+            
+            <label>Postres:</label>
+            <textarea name="post" id="mt8" rows="1" placeholder="Ingrese precio total de postres"></textarea>
+    
+            
+            <label>Adicionales:</label>
+            <textarea name="adi" id="mt9" rows="1" placeholder="Ingrese precio total de adicionales"></textarea>
+
+        
+            <p>¿Cuentas con membresía?</p>
+            <select id="MDes1">
+                <option value="----" selected> ---- </option>
+                <option value="desp1">Sí</option>
+                <option value="desp2">No</option>
+            </select>
+            
+            <p>¿Cuentas con cupones?</p>
+            <select id="MDes2">
+                <option value="----" selected> ---- </option>
+                <option value="desp1">Sí</option>
+                <option value="desp2">No</option>
+            </select>
+        
+            <h2>Total sin descuentos: <input type="text" id="tsd" value="0" readonly></h2>
+            <h2>Total con descuentos: <input type="text" id="tcd" value="0" readonly></h2>
+        
+            <button type="button" onclick="calcula()">Calcular</button>    
+        </div>
+    </form>
+
+    <script>
+        function verificaEdad() {
+            const edad = parseInt(document.getElementById("mt4").value) || 0;
+            const cocteleria = document.getElementById("mt7");
+            cocteleria.disabled = edad < 18;
+            if (edad < 18) cocteleria.value = "0";
+        }
+
+        function calcula() {
+            const op1 = parseFloat(document.getElementById("mt5").value) || 0;
+            const op2 = parseFloat(document.getElementById("mt6").value) || 0;
+            const op3 = parseFloat(document.getElementById("mt7").value) || 0;
+            const op4 = parseFloat(document.getElementById("mt8").value) || 0;
+            const op5 = parseFloat(document.getElementById("mt9").value) || 0;
+
+            const totalSDesc = op1 + op2 + op3 + op4 + op5;
+            document.getElementById("tsd").value = totalSDesc.toFixed(2);
+
+            let totalDesc = totalSDesc;
+            if (document.getElementById("MDes1").value === "desp1") totalDesc -= totalSDesc * 0.10;
+            if (document.getElementById("MDes2").value === "desp1") totalDesc -= totalSDesc * 0.05;
+
+            document.getElementById("tcd").value = totalDesc.toFixed(2);
+        }
+    </script>
+</body>
+</html>
